@@ -2,6 +2,7 @@ package com.example.myapplication
 
 import android.os.Bundle
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 
@@ -13,8 +14,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val roll_button: Button = findViewById(R.id.button)
-        roll_button.setOnClickListener { rollDice() }
+        val rollButton: Button = findViewById(R.id.button)
+        rollButton.setOnClickListener { rollDice() }
+
+        rollDice()
     }
 
     /*
@@ -24,8 +27,24 @@ class MainActivity : AppCompatActivity() {
         //Create a new Dice object
         val dice = Dice(6)
         val roll = dice.roll()
-        val resultTextView: TextView = findViewById(R.id.textView)
-        resultTextView.text = roll.toString()
+
+        //Find the image view in the layout
+        val diceImage: ImageView = findViewById(R.id.imageView)
+
+        //Set which image of a die to use based on the random roll
+        val drawableResource = when(roll) {
+            1 -> R.drawable.dice_1
+            2 -> R.drawable.dice_2
+            3 -> R.drawable.dice_3
+            4 -> R.drawable.dice_4
+            5 -> R.drawable.dice_5
+            else -> R.drawable.dice_6
+        }
+
+        //Set the image view to be the chosen die image
+        diceImage.setImageResource(drawableResource)
+        diceImage.contentDescription = roll.toString()
+
     }
 }
 
